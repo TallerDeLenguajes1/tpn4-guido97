@@ -73,10 +73,6 @@ Tarea buscarTareaPorID(int idTarea,Tarea ** pTareas1,Tarea ** pTareas2,int cantT
 }
 
 
-        int duracion = rand() % 101 + 10;
-        (*pVector[i]).Duracion = duracion;
-    }
-}
 Tarea buscarTareaPorPalabra(char clave[], Tarea **pTareas1, Tarea **pTareas2, int cantTareas){
     Tarea *tAux;
     for (int i = 0; i < cantTareas; i++)
@@ -128,11 +124,12 @@ int main(int argc, char const *argv[])
     printf("\n\tTareas Realizadas\n");
     mostrarTareas(pTareasRealizadas,cantTareas);
 
+    printf("Búsqueda por ID\n");
     Tarea t = buscarTareaPorID(3,pTareasRealizadas,pTareas,cantTareas);
     mostrarTarea(t);
 
-
-    Tarea t = buscarTareaPorPalabra("a", pTareasRealizadas, pTareas, cantTareas);
+    printf("Búsqueda por palabra\n");
+    t = buscarTareaPorPalabra("a", pTareasRealizadas, pTareas, cantTareas);
         mostrarTarea(t);
 
         free(pTareas);
