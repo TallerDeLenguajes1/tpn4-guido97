@@ -54,11 +54,30 @@ void cargarTareas(Tarea **pVector, int cant)
         (*pVector[i]).Descripcion = (char *)malloc(sizeof(s) * strlen(s));
         strcpy(((*pVector[i]).Descripcion), s);
 
+        int duracion=rand()%101+10;
+        (*pVector[i]).Duracion=duracion;
+    }
+    
+}
+Tarea buscarTareaPorID(int idTarea,Tarea ** pTareas1,Tarea ** pTareas2,int cantTareas){
+    Tarea *tAux;
+    for (int i = 0; i < cantTareas; i++)
+    {
+        if ((tAux=(pTareas1[i]))==NULL)
+            tAux=pTareas2[i];
+        
+        if ((*tAux).TareaID==idTarea)
+            return *tAux; 
+    }
+    return *tAux;
+}
+
+
         int duracion = rand() % 101 + 10;
         (*pVector[i]).Duracion = duracion;
     }
 }
-Tarea buscarTarea(char clave[], Tarea **pTareas1, Tarea **pTareas2, int cantTareas){
+Tarea buscarTareaPorPalabra(char clave[], Tarea **pTareas1, Tarea **pTareas2, int cantTareas){
     Tarea *tAux;
     for (int i = 0; i < cantTareas; i++)
     {
@@ -75,14 +94,15 @@ Tarea buscarTarea(char clave[], Tarea **pTareas1, Tarea **pTareas2, int cantTare
 }
 
     void mostrarTarea(Tarea t){
-        printf("\nID de la Tarea: %d\n"
-               "Descripción: %s\n"
+printf("\nID de la Tarea: %d\n"\
+                "Descripción: %s\n"\
                "Duración: %d\n",
                t.TareaID, t.Descripcion,
                t.Duracion);
     }
 
-    void mostrarTareas(Tarea * *pVector, int cant)
+
+    void mostrarTareas(Tarea **pVector, int cant)
     {
         for (int i = 0; i < cant; i++)
             if (pVector[i] != NULL)
@@ -91,25 +111,28 @@ Tarea buscarTarea(char clave[], Tarea **pTareas1, Tarea **pTareas2, int cantTare
             }
     }
 
-    int main(int argc, char const *argv[])
-    {
-        printf("Cuántas tareas va a cargar?: ");
-        int cantTareas;
-        scanf("%d", &cantTareas);
-        Tarea **pTareas;
-        pTareas = (Tarea **)malloc(sizeof(Tarea *) * cantTareas);
-        cargarTareas(pTareas, cantTareas);
-        Tarea **pTareasRealizadas = (Tarea **)malloc(sizeof(Tarea *) * cantTareas);
-        ;
-        cargarRealizadas(pTareas, pTareasRealizadas, cantTareas);
+int main(int argc, char const *argv[])
+{
+    printf("Cuántas tareas va a cargar?: ");
+    int cantTareas;
+    scanf("%d", &cantTareas);
+    Tarea **pTareas;
+    pTareas = (Tarea **)malloc(sizeof(Tarea*)*cantTareas);
+    cargarTareas(pTareas,cantTareas);
+    Tarea **pTareasRealizadas = (Tarea **)malloc(sizeof(Tarea*)*cantTareas);
+    cargarRealizadas(pTareas,pTareasRealizadas,cantTareas);
 
-        printf("\n\n\tTareas Pendientes\n");
-        mostrarTareas(pTareas, cantTareas);
+    printf("\n\n\tTareas Pendientes\n");
+    mostrarTareas(pTareas,cantTareas);
 
-        printf("\n\tTareas Realizadas\n");
-        mostrarTareas(pTareasRealizadas, cantTareas);
+    printf("\n\tTareas Realizadas\n");
+    mostrarTareas(pTareasRealizadas,cantTareas);
 
-        Tarea t = buscarTarea("a", pTareasRealizadas, pTareas, cantTareas);
+    Tarea t = buscarTareaPorID(3,pTareasRealizadas,pTareas,cantTareas);
+    mostrarTarea(t);
+
+
+    Tarea t = buscarTareaPorPalabra("a", pTareasRealizadas, pTareas, cantTareas);
         mostrarTarea(t);
 
         free(pTareas);
@@ -121,6 +144,5 @@ Tarea buscarTarea(char clave[], Tarea **pTareas1, Tarea **pTareas2, int cantTare
     void vaciar_buffer()
     {
         int ch;
-        while ((ch = getchar()) != '\n' && ch != EOF)
-            ;
+        while ((ch = getchar()) != '\n' && ch != EOF);
     }
