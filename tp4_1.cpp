@@ -56,6 +56,18 @@ void cargarTareas(Tarea ** pVector,int cant){
     }
     
 }
+Tarea buscarTarea(int idTarea,Tarea ** pTareas1,Tarea ** pTareas2,int cantTareas){
+    Tarea *tAux;
+    for (int i = 0; i < cantTareas; i++)
+    {
+        if ((tAux=(pTareas1[i]))==NULL)
+            tAux=pTareas2[i];
+        
+        if ((*tAux).TareaID==idTarea)
+            return *tAux; 
+    }
+    return *tAux;
+}
 
 void mostrarTarea(Tarea t){
 printf("\nID de la Tarea: %d\n"\
@@ -74,7 +86,6 @@ void mostrarTareas(Tarea ** pVector,int cant){
 }
 
 
-
 int main(int argc, char const *argv[])
 {
     printf("Cuántas tareas va a cargar?: ");
@@ -91,6 +102,9 @@ int main(int argc, char const *argv[])
 
     printf("\n\tTareas Realizadas\n");
     mostrarTareas(pTareasRealizadas,cantTareas);
+
+    Tarea t = buscarTarea(3,pTareasRealizadas,pTareas,cantTareas);
+    mostrarTarea(t);
 
     free(pTareas);
     free(pTareasRealizadas);
